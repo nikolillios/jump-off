@@ -39,8 +39,10 @@ export class GameComponent implements OnInit {
       this.nextPlayer();
       this.hintAvail = false;
     } else {
-      this.promptPlayer('try again')
-      this.hintAvail = true;
+      if (!this.buttonEnabled) {
+        this.hintAvail = true;
+        this.promptPlayer('try again');
+      }
     }
   }
 
@@ -92,6 +94,7 @@ export class GameComponent implements OnInit {
     console.log('restart');
     this.spins = [[], []];
     this.currPlayerIndex = 0;
+    this.turn = 0;
     this.buttonEnabled = true;
     this.message = "";
     this.playAgain = false;
