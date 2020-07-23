@@ -26,4 +26,10 @@
       </ng-template>
     </ul>
   </div>
+  <div class='winner-circle'>
+    <span *ngIf='winner==0; else p1Win' class='p1IndexWin'></span>
+    <ng-template #p1Win>
+      <span *ngIf='winner==1' class='p2IndexWin'></span>
+    </ng-template>
+  </div>
 </div>

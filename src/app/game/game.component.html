@@ -1,5 +1,5 @@
 <app-number-line (selected)=registerSelection($event) [players]='players' (jumpedOff)=attemptJumpOff()
-  (lessThan)='lessThanSelected()'>
+  (lessThan)='lessThanSelected()' [winner]='winner'>
 </app-number-line>
 <p class='prompt' *ngIf='message; else blank'>{{message}}
   <button *ngIf='playAgain' (click)='restartGame()'>Play Again</button>

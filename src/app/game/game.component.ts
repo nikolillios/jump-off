@@ -19,6 +19,7 @@ export class GameComponent implements OnInit {
   message: string = "";
   playAgain: boolean = false;
   hintAvail: boolean = false;
+  winner: number;
   constructor() {
     this.currPlayerIndex = 0;
     this.spins = [[], []]
@@ -83,11 +84,14 @@ export class GameComponent implements OnInit {
   attemptJumpOff() {
     if (this.players[this.currPlayerIndex].position + this.lastSpinVal() > this.boardLength) {
       this.promptPlayer('You have jumped off and won! Congratulations to player '
-        + this.currPlayerIndex);
+        + (this.currPlayerIndex == 0 ? 'green' : 'red'));
+      this.players[this.currPlayerIndex].position = this.boardLength + 1;
       this.playAgain = true;
+      this.winner = this.currPlayerIndex;
     } else {
       if (!this.buttonEnabled) {
         this.promptPlayer('Can not jump from here');
+        this.hintAvail = true;
       }
     }
   }
@@ -100,6 +104,7 @@ export class GameComponent implements OnInit {
     this.buttonEnabled = true;
     this.message = "";
     this.playAgain = false;
+    this.winner = null;
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].position = 0;
     }

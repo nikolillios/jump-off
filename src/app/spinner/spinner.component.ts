@@ -132,7 +132,7 @@ export class SpinnerComponent implements OnInit {
       }
       // for error finding
       default: {
-        this.value = 5555;
+        this.value = 100;
         break;
       }
     }
