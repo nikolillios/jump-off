@@ -40,9 +40,9 @@ export class SpinnerComponent implements OnInit {
 
     // to ensure ticker is pointing at correct section while ensuring wheel 
     // result is fair
-    if (((rotation + 18) % 36) < 3) {
+    if (((rotation + 9) % 18) < 3) {
       rotation += 3;
-    } else if (((rotation + 18) % 36) > 32) {
+    } else if (((rotation + 9) % 18) > 15) {
       rotation -= 3;
     }
     wheel.style.transform = "rotate(" + rotation + "deg)";

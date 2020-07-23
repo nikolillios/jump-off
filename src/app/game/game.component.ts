@@ -18,7 +18,7 @@ export class GameComponent implements OnInit {
   buttonEnabled: boolean = true;
   message: string = "";
   playAgain: boolean = false;
-
+  hintAvail: boolean = false;
   constructor() {
     this.currPlayerIndex = 0;
     this.spins = [[], []]
@@ -37,8 +37,10 @@ export class GameComponent implements OnInit {
       this.buttonEnabled = true;
       console.log('button: ' + this.buttonEnabled);
       this.nextPlayer();
+      this.hintAvail = false;
     } else {
       this.promptPlayer('try again')
+      this.hintAvail = true;
     }
   }
 
@@ -53,7 +55,7 @@ export class GameComponent implements OnInit {
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].isCurrPlayer = !this.players[i].isCurrPlayer;
     }
-    this.promptPlayer('spin the wheel and select your destination on the number line');
+    this.promptPlayer('Spin the wheel and select your destination on the number line');
     this.turn++;
   }
 
@@ -82,7 +84,7 @@ export class GameComponent implements OnInit {
         + this.currPlayerIndex);
       this.playAgain = true;
     } else {
-      this.promptPlayer('can not jump from here');
+      this.promptPlayer('Can not jump from here');
     }
   }
 
@@ -106,6 +108,12 @@ export class GameComponent implements OnInit {
     } else {
       this.promptPlayer('try again');
     }
+  }
+
+  showHint() {
+    this.promptPlayer('You are at position ' + this.players[this.currPlayerIndex].position +
+      ' and need to jump ' + this.lastSpinVal() + ' steps');
+    this.hintAvail = false;
   }
 
   ngOnInit(): void {

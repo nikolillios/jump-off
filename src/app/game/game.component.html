@@ -3,9 +3,10 @@
 </app-number-line>
 <p class='prompt' *ngIf='message; else blank'>{{message}}
   <button *ngIf='playAgain' (click)='restartGame()'>Play Again</button>
+  <button *ngIf='hintAvail' (click)='showHint()'>Hint</button>
 </p>
 <ng-template #blank>
-  <p class='prompt'> Else</p>
+  <p class='prompt'> Welcome to Jump Off. Spin the wheel and select your destination on the number line.</p>
 </ng-template>
 <spinner (numberChosen)='registerSpin($event)' [isClickable]='buttonEnabled' (buttonEnabled)='buttonEnabled=$event'>
 </spinner>
