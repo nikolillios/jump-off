@@ -1,0 +1,29 @@
+<div class='cont'>
+  <div>
+    <ul class='progress-line'>
+      <li *ngFor='let number of nums' class='p1tick'>
+        <span *ngIf='isAtIndex(number, players[0])' class='p1Index'></span>
+      </li>
+      <li *ngIf='players[0].isCurrPlayer; else alt' class='turn-ind'>&#60;&#60; Current Player</li>
+      <ng-template #alt>
+        <li class='turn-ind-off'></li>
+      </ng-template>
+    </ul>
+    <ul>
+      <li class='elem' (click)='lessThanClicked()'>&#60; 0</li>
+      <li *ngFor='let number of nums' class='elem' (click)='registerClick(number)'>
+        {{number}}
+      </li>
+      <li class='jump-off' (click)='attemptJumpOff()'>Jump Off!</li>
+    </ul>
+    <ul class='progress-line'>
+      <li *ngFor='let number of nums' class='p2tick'>
+        <span *ngIf='isAtIndex(number, players[1])' class='p2Index'></span>
+      </li>
+      <li *ngIf='players[1].isCurrPlayer; else alt' class='turn-ind'>&#60;&#60; Current Player</li>
+      <ng-template #alt>
+        <li class='turn-ind-off'></li>
+      </ng-template>
+    </ul>
+  </div>
+</div>

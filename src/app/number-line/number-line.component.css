@@ -1,0 +1,73 @@
+.elem {
+  display: inline-block;
+  border: solid 2px darkgray;
+  width: 40px;
+  height: 33px;
+  padding-top: 17px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  background-color: #FBD784;
+  font-weight: bold;
+}
+
+.progress-line {
+  margin-left: 42px;
+}
+.p1tick {
+  display: inline-block;
+  width: 40px;
+  margin: 2px;
+  text-align: center;
+}
+
+.p2tick {
+  display: inline-block;
+  width: 40px;
+  margin: 2px;
+  text-align: center;
+}
+.cont {
+  display: flex;
+  justify-content: center;
+  border: 3px solid black;
+  background-color: #8ED8FB ;
+  min-width: 950px;
+}
+
+.jump-off {
+  display: inline-block;
+  border: solid 2px black;
+  width: 65px;
+  height: 55px;
+  padding-top: 10px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  background-color:green ;
+}
+
+.p1Index {
+  display: inline-block;
+  height: 50px;
+  width: 20px;
+  clip-path: polygon(12% 0, 50% 100%, 88% 0);
+  background-color: green;
+}
+
+.p2Index {
+  display: inline-block;
+  height: 50px;
+  width: 20px;
+  clip-path: polygon(12% 100%, 50% 0%, 88% 100%);
+  background-color:red;
+}
+.turn-ind {
+  display: inline-block;
+  border-radius: 10%;
+  font-weight: bold;
+}
+.turn-ind-off {
+  display: inline-block;
+}
+
