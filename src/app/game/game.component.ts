@@ -105,6 +105,7 @@ export class GameComponent implements OnInit {
       this.players[this.currPlayerIndex].position = 0;
       this.nextPlayer();
       this.buttonEnabled = true;
+      this.hintAvail = false;
     } else {
       this.promptPlayer('try again');
     }
