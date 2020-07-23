@@ -41,7 +41,7 @@ export class GameComponent implements OnInit {
     } else {
       if (!this.buttonEnabled) {
         this.hintAvail = true;
-        this.promptPlayer('try again');
+        this.promptPlayer('Try again ');
       }
     }
   }
@@ -86,7 +86,9 @@ export class GameComponent implements OnInit {
         + this.currPlayerIndex);
       this.playAgain = true;
     } else {
-      this.promptPlayer('Can not jump from here');
+      if (!this.buttonEnabled) {
+        this.promptPlayer('Can not jump from here');
+      }
     }
   }
 
@@ -110,7 +112,10 @@ export class GameComponent implements OnInit {
       this.buttonEnabled = true;
       this.hintAvail = false;
     } else {
-      this.promptPlayer('try again');
+      if (!this.buttonEnabled) {
+        this.hintAvail = true;
+        this.promptPlayer('Try again ');
+      }
     }
   }
 
