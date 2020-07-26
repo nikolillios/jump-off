@@ -9,6 +9,7 @@
   border-radius: 50%;
   background-color: #FBD784;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .progress-line {
@@ -29,7 +30,7 @@
   text-align: center;
 }
 .cont {
-  display: flex;
+  height: 270px;
   justify-content: center;
   border: 3px solid black;
   background-color: #8ED8FB ;
