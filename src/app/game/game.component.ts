@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../model/player.model';
-import { typeSourceSpan, NONE_TYPE, ThrowStmt } from '@angular/compiler';
+import io from "socket.io-client";
 
 @Component({
   selector: 'app-game',
@@ -20,10 +20,23 @@ export class GameComponent implements OnInit {
   playAgain: boolean = false;
   hintAvail: boolean = false;
   winner: number;
+  private socket: any;
   constructor() {
     this.currPlayerIndex = 0;
     this.spins = [[], []]
   }
+
+  ngOnInit(): void {
+    this.players = [new Player(true), new Player(false)];
+    this.socket = io();
+  }
+
+  ngAfterInit() {
+    this.socket.on('message', data => {
+      console.log('message: ' + data);
+    });
+  }
+
 
   registerSpin(value: number) {
     console.log(value);
@@ -128,10 +141,6 @@ export class GameComponent implements OnInit {
     this.promptPlayer('You are at position ' + this.players[this.currPlayerIndex].position +
       ' and need to jump ' + this.lastSpinVal() + ' steps');
     this.hintAvail = false;
-  }
-
-  ngOnInit(): void {
-    this.players = [new Player(true), new Player(false)];
   }
 
 }

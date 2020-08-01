@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { calcPossibleSecurityContexts } from '@angular/compiler/src/template_parser/binding_parser';
 
 @Component({
   selector: 'spinner',
@@ -8,135 +10,89 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 export class SpinnerComponent implements OnInit {
 
   value: number;
+  nums: number[];
   offset: number;
+  colors: string[] = ['red', 'blue', 'yellow']; //<<< Choose colors for spinner
+  minSpin: number = 1080;
+  maxSpin: number = 7200;
+  buttonActive: boolean = true;
   @Output() public numberChosen = new EventEmitter();
   @Output() buttonEnabled = new EventEmitter<boolean>();
 
   @Input('isClickable')
   set clickable(b: boolean) {
-    console.log('sdfjsdfo');
     this.setButton(b);
   }
 
-  constructor() { }
+  constructor() {
+    this.nums = [0, 1, -1, 2, 7, -5, 0, 4, 5]; //<<< Choose values for spinner 
+  }
 
   ngOnInit(): void {
     this.offset = 0;
   }
 
+  ngAfterViewInit() {
+    this.styleSpinner();
+  }
+
   setButton(b: boolean) {
-    var button = <HTMLButtonElement>document.getElementById("ones-button")
+    var button = <HTMLButtonElement>document.getElementById("button")
     button.disabled = !b;
+    this.buttonActive = b;
     this.buttonEnabled.emit(b);
   }
 
-  spinOnesWheel() {
-    var button = <HTMLButtonElement>document.getElementById("ones-button")
+  styleSpinner() {
+    let percentDisplacement = Math.tan(this.sectorAngle('rad') / 2) * 100;
+    let p1 = percentDisplacement + 50;
+    let p2 = -percentDisplacement + 50;
+    for (let i = 0; i < this.nums.length; i++) {
+      var section = document.getElementById(i.toString());
+      section.style.clipPath = `polygon(0 ${p1}%, 100% 50%, 0 ${p2}%)`;
+      section.style.backgroundColor = this.backgroundColor(i);
+      section.style.top = '25%';
+      section.style.left = '0%';
+      section.style.transformOrigin = '100% 50%'
+      section.style.transform = 'rotate(' + (-i * 360 / this.nums.length).toString() + 'deg)';
+    }
+  }
+
+  sectorAngle(mode: string) {
+    if (mode == 'rad') {
+      return 2 * Math.PI / this.nums.length;
+    } else if (mode == 'deg') {
+      return 360 / this.nums.length;
+    }
+    return null;
+  }
+
+  backgroundColor(index: number) {
+    return this.colors[index % this.colors.length];
+  }
+
+  spinWheel() {
+    var button = <HTMLButtonElement>document.getElementById("button")
     this.setButton(false);
-    var min = 1080, max = 7200;
-    var t = Math.floor(Math.random() * (max - min)) + min;
+    var t = Math.floor(Math.random() * (this.maxSpin - this.minSpin)) + this.minSpin;
     var rotation = t + this.offset;
-    var wheel = document.getElementById("ones-wheel");
+    var wheel = document.getElementById("wheel");
 
     // to ensure ticker is pointing at correct section while ensuring wheel 
     // result is fair
-    if (((rotation + 9) % 18) < 3) {
-      rotation += 3;
-    } else if (((rotation + 9) % 18) > 15) {
-      rotation -= 3;
+    let errorMargin = 3;
+    let angle = this.sectorAngle('deg');
+    if (((rotation + angle / 2) % angle) < errorMargin) {
+      rotation += errorMargin;
+    } else if (((rotation + angle / 2) % angle) > angle - errorMargin) {
+      rotation -= errorMargin;
     }
     wheel.style.transform = "rotate(" + rotation + "deg)";
     this.offset = rotation;
-    var result = (rotation + 9) % 360;
-    console.log('result: ' + result)
-    switch (Math.floor(result / 18)) {
-      case 0: {
-        this.value = 1;
-        break;
-      }
-      case 1: {
-        this.value = -9;
-        break;
-      }
-      case 2: {
-        this.value = 0;
-        break;
-      }
-      case 3: {
-        this.value = -8;
-        break;
-      }
-      case 4: {
-        this.value = 9;
-        break;
-      }
-      case 5: {
-        this.value = -7;
-        break;
-      }
-      case 6: {
-        this.value = 8;
-        break;
-      }
-      case 7: {
-        this.value = -6;
-        break;
-      }
-      case 8: {
-        this.value = 7;
-        break;
-      }
-      case 9: {
-        this.value = -5;
-        break;
-      }
-      case 10: {
-        this.value = 6;
-        break;
-      }
-      case 11: {
-        this.value = -4;
-        break;
-      }
-      case 12: {
-        this.value = 5;
-        break;
-      }
-      case 13: {
-        this.value = -3;
-        break;
-      }
-      case 14: {
-        this.value = 4;
-        break;
-      }
-      case 15: {
-        this.value = -2;
-        break;
-      }
-      case 16: {
-        this.value = 3;
-        break;
-      }
-      case 17: {
-        this.value = -1;
-        break;
-      }
-      case 18: {
-        this.value = 2;
-        break;
-      }
-      case 19: {
-        this.value = 0;
-        break;
-      }
-      // for error finding
-      default: {
-        this.value = 100;
-        break;
-      }
-    }
-    this.numberChosen.emit(this.value);
+    console.log('rotation: ' + rotation % 360);
+    console.log('angle: ' + angle)
+    var result = (rotation + angle / 2) % 360;
+    this.numberChosen.emit(this.nums[Math.floor(result / 360 * this.nums.length)]);
   }
-
 }
+
